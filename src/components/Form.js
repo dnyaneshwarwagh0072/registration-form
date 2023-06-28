@@ -1,24 +1,65 @@
+import { useEffect, useState } from "react";
+
 const Form = () => {
+  const data = { name: "", email: "", gender: "" };
+
+  const [inputData, setInputData] = useState(data);
+  const [flag, setFlag] = useState(false);
+
+  useEffect(() => {
+    console.log("Register is Done");
+  }, [flag]);
+
+  const handleData = (e) => {
+    setInputData({ ...inputData, [e.target.name]: e.target.value });
+    console.log(inputData);
+  };
+
   const handleSubmit = (e) => {
-      alert(`Hello ${e.target.name} form is successfully Submitted`);
     e.preventDefault();
+    if (!inputData.name || !inputData.email) {
+      alert("All fields are mendatory");
+    } else {
+      setFlag(true);
+    }
   };
 
   return (
-    <div className="form-css">
+    <>
+      <pre>
+        {flag ? (
+          <h2 className="ui-define">
+            Hello {inputData.name}, You've Registered Successfuly
+          </h2>
+        ) : (
+          ""
+        )}
+      </pre>
       <form onSubmit={handleSubmit}>
-        <table id="table-css">
+        <table>
           <tr>
             <td>Name :</td>
             <td>
-              <input type="name" name="name" placeholder="Enter your name" />
+              <input
+                type="name"
+                placeholder="Enter your name"
+                name="name"
+                value={inputData.name}
+                onChange={handleData}
+              />
             </td>
           </tr>
 
           <tr>
             <td>Email :</td>
             <td>
-              <input type="mail" placeholder="Enter Email" />
+              <input
+                type="mail"
+                placeholder="Enter Email"
+                name="email"
+                value={inputData.email}
+                onChange={handleData}
+              />
             </td>
           </tr>
 
@@ -62,7 +103,7 @@ const Form = () => {
           </tr>
         </table>
       </form>
-    </div>
+    </>
   );
 };
 
